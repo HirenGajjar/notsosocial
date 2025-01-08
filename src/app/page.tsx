@@ -1,7 +1,4 @@
-import ModeToggle from "@/components/ui/ModeToggle";
-import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
-
+import { Prisma } from "@prisma/client";
 export default function Home() {
   return (
     <>
