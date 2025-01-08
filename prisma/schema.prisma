@@ -84,6 +84,24 @@ model Like {
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   //Composite Index 
+  // Here same user cannot like the same post more than once
 
+  @@unique([userId, postId])
   @@index([userId, postId])
+}
+
+model Follows {
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  //relations
+
+  follower  User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  //Composite Index
+  @@id([followerId, followingId])
+  // Here one user cannot follow another unique user more than once
+  @@index([followerId, followingId])
 }
