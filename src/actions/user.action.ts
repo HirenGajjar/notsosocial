@@ -1,7 +1,8 @@
-"user server";
+"use server";
 
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
+
 export const syncUser = async () => {
   try {
     //get user id from clerk
