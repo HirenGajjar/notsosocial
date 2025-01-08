@@ -27,13 +27,31 @@ model User {
   updatedAt DateTime @updatedAt
 
   //Relations
+  // Here one user can have N number of posts - but one post can only have one user/author/creator - so it is one to many relationship
+  posts    Post[]
+  comments Comment[]
+  likes    Like[]
 
-  posts     Post[]
-  comments  Comment[]
-  likes     Like[]
-  followers Follows[] @relation("following") // other users that starts follwing current logged in user
+  followers Follows[] @relation("following") // other users that starts following current logged in user
   following Follows[] @relation("follower") // the current logged in user following other users
 
   notifications        Notification[] @relation("UserNotification") //when current logged in user get notifications
   notificationsCreated Notification[] @relation("notificationCreator") // notifications created by the user
+}
+
+model Post {
+  id       String  @id @default(cuid())
+  authorId String
+  content  String?
+  image    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //relations
+  //Cascade means if the user is deleted then all the posts related to that user will also be deleted
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+  likes         Like[]
+  notifications Notification[]
 }
